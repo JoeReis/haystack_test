@@ -8,5 +8,5 @@ class GeoIndex(indexes.SearchIndex, indexes.Indexable):
     latitude = indexes.CharField(model_attr='latitude')
     longitude = indexes.CharField(model_attr='longitude')
 
-    def get_models(self):
+    def get_model(self):
         return Geo
