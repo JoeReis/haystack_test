@@ -7,6 +7,7 @@ class NoteIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     author = indexes.CharField(model_attr='user')
     pub_date = indexes.DateTimeField(model_attr='pub_date')
+    post_location = indexes.CharField(model_attr='post_location')
 
     def get_model(self):
         return Note
