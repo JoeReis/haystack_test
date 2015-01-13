@@ -1,4 +1,0 @@
-{{ object.zip }}
-{{ object.city }}
-{{ object.latitude }}
-{{ object.longitude }}
