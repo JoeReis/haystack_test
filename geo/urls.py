@@ -1,0 +1,14 @@
+from django.conf.urls import patterns, include, url
+from haystack.forms import ModelSearchForm
+from haystack.query import SearchQuerySet
+from haystack.views import SearchView
+
+from .forms import GeoForm
+
+urlpatterns = patterns('haystack.views',
+
+    url(r'^$', SearchView(
+        template="geo/geo.html",
+        form_class=GeoForm
+    ), name='haystack_search')
+)
