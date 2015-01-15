@@ -16,5 +16,5 @@ class GeoForm(SearchForm):
         (DISTANCE_100, '100'),
     )
 
-    zip_code = forms.CharField(required=True)
+    #zip_code = forms.CharField(required=True) #this will also be the search term
     distance = forms.ChoiceField(choices=DISTANCE_CHOICES)

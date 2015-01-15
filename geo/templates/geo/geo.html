@@ -1,5 +1,3 @@
-HELLO WORLD
-
 <h2>Search</h2>
 
     <form method="get" action=".">
@@ -19,6 +17,8 @@ HELLO WORLD
             {% for result in page.object_list %}
                 <p>
                     <a href="{{ result.object.get_absolute_url }}">{{ result.object.distance }}</a>
+                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.zip_code }}</a>
+                    <!--need to return all results within x miles of zip code -->
                 </p>
             {% empty %}
                 <p>No results found.</p>

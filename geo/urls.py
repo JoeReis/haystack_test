@@ -4,11 +4,18 @@ from haystack.query import SearchQuerySet
 from haystack.views import SearchView
 
 from .forms import GeoForm
+from .search_indexes import GeoIndex
+
+from haystack.query import SearchQuerySet
+from haystack.inputs import AutoQuery
+
+sqs = SearchQuerySet().dwithin(AutoQuery(GeoIndex.location, request.GET['q'], request.GET['distance']))
 
 urlpatterns = patterns('haystack.views',
 
     url(r'^$', SearchView(
         template="geo/geo.html",
-        form_class=GeoForm
+        form_class=GeoForm,
+        searchqueryset = sqs,
     ), name='haystack_search')
 )
