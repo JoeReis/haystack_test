@@ -1,0 +1,4 @@
+{{ object.zip_code }}
+{{ object.city }}
+{{ object.latitude }}
+{{ object.longitude }}
