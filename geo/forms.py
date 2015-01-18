@@ -1,5 +1,10 @@
 from django import forms
+
+from .models import Geo
+
 from haystack.forms import SearchForm
+from haystack.query import SearchQuerySet
+from haystack.utils.geo import Point, D
 
 
 class GeoForm(SearchForm):
@@ -18,3 +23,24 @@ class GeoForm(SearchForm):
 
     #zip_code = forms.CharField(required=True) #this will also be the search term
     distance = forms.ChoiceField(choices=DISTANCE_CHOICES)
+
+
+    def search(self):
+        if not self.is_valid():
+            return self.no_query_found()
+
+        sqs = self.searchqueryset
+
+        distance = D(mi=self.cleaned_data['distance'])
+
+        q = self.cleaned_data['q']
+        obj= Geo.objects.get(zip_code=self.cleaned_data['q'])
+        latitude = obj.latitude
+        longitude = obj.longitude
+
+
+        sqs = SearchQuerySet().dwithin('location', Point(longitude, latitude), distance)
+
+        return sqs
+
+
