@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.contrib.gis.geos import Point
+#from haystack.utils.geo import Point
 
 
 class Geo(models.Model):

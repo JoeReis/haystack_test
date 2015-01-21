@@ -14,14 +14,13 @@ class GeoForm(SearchForm):
     DISTANCE_50 = '50'
     DISTANCE_100 = '100'
     DISTANCE_CHOICES = (
-        (DISTANCE_5, '5'),
-        (DISTANCE_10, '10'),
-        (DISTANCE_25, '25'),
-        (DISTANCE_50, '50'),
-        (DISTANCE_100, '100'),
+        (DISTANCE_5, DISTANCE_5),
+        (DISTANCE_10, DISTANCE_10),
+        (DISTANCE_25, DISTANCE_25),
+        (DISTANCE_50, DISTANCE_50),
+        (DISTANCE_100, DISTANCE_100),
     )
 
-    #zip_code = forms.CharField(required=True) #this will also be the search term
     distance = forms.ChoiceField(choices=DISTANCE_CHOICES)
 
 
@@ -29,18 +28,26 @@ class GeoForm(SearchForm):
         if not self.is_valid():
             return self.no_query_found()
 
-        sqs = self.searchqueryset
+        if not self.cleaned_data['q']:
+            return self.no_query_found()
+
+        sqs = self.searchqueryset.all()
+
 
         distance = D(mi=self.cleaned_data['distance'])
 
-        q = self.cleaned_data['q']
         obj= Geo.objects.get(zip_code=self.cleaned_data['q'])
+
         latitude = obj.latitude
         longitude = obj.longitude
 
+        center_point = Point(longitude, latitude)
 
-        sqs = SearchQuerySet().dwithin('location', Point(longitude, latitude), distance)
+        sqs = sqs.dwithin('location', center_point, distance)
 
-        return sqs
+        if self.load_all:
+            sqs.load_all()
+            return sqs
+
 
 

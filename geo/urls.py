@@ -16,6 +16,5 @@ urlpatterns = patterns('haystack.views',
     url(r'^$', SearchView(
         template="geo/geo.html",
         form_class=GeoForm,
-        # searchqueryset = sqs,
     ), name='haystack_search')
 )

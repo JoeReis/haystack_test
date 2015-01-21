@@ -15,10 +15,10 @@
             <h3>Results</h3>
 
             {% for result in page.object_list %}
+                {{result}}
+                {{result.get_stored_fields}}
                 <p>
-                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.distance }}</a>
                     <a href="{{ result.object.get_absolute_url }}">{{ result.object.zip_code }}</a>
-                    <!--need to return all results within x miles of zip code -->
                 </p>
             {% empty %}
                 <p>No results found.</p>
