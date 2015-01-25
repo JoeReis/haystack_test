@@ -34,23 +34,17 @@ class GeoForm(SearchForm):
             return self.no_query_found()
 
         dist = int(self.cleaned_data['distance'])
-        print(type(dist))
 
         distance = D(mi=dist*1000)
-        print(distance)
 
         obj= Geo.objects.get(zip_code=self.cleaned_data['q'])
-        print(obj)
 
         latitude = obj.latitude
         longitude = obj.longitude
-        print(latitude, longitude)
 
         center_point = Point(longitude, latitude)
         #import pdb; pdb.set_trace()
         sqs = SearchQuerySet().dwithin('location', center_point, distance).distance('location', center_point)
-
-        print(sqs)
         return sqs
 
         #sqs = sqs.dwithin('location', center_point, distance)
