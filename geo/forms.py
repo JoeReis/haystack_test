@@ -5,6 +5,8 @@ from .models import Geo
 from haystack.forms import SearchForm
 from haystack.query import SearchQuerySet
 from haystack.utils.geo import Point, D
+# from django.contrib.gis.measure import D
+# from django.contrib.gis.geos import Point
 
 
 class GeoForm(SearchForm):
@@ -31,23 +33,31 @@ class GeoForm(SearchForm):
         if not self.cleaned_data['q']:
             return self.no_query_found()
 
-        sqs = self.searchqueryset.all()
+        dist = int(self.cleaned_data['distance'])
+        print(type(dist))
 
-
-        distance = D(mi=self.cleaned_data['distance'])
+        distance = D(mi=dist*1000)
+        print(distance)
 
         obj= Geo.objects.get(zip_code=self.cleaned_data['q'])
+        print(obj)
 
         latitude = obj.latitude
         longitude = obj.longitude
+        print(latitude, longitude)
 
         center_point = Point(longitude, latitude)
+        #import pdb; pdb.set_trace()
+        sqs = SearchQuerySet().dwithin('location', center_point, distance).distance('location', center_point)
 
-        sqs = sqs.dwithin('location', center_point, distance)
+        print(sqs)
+        return sqs
 
-        if self.load_all:
-            sqs.load_all()
-            return sqs
+        #sqs = sqs.dwithin('location', center_point, distance)
+
+        # if self.load_all:
+        #     sqs.load_all()
+        #     return sqs
 
 
 

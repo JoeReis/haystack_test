@@ -1,5 +1,3 @@
-#from django.contrib.gis.geos import Pointet20144
-
 from django.db import models
 from django.contrib.gis.geos import Point
 #from haystack.utils.geo import Point
@@ -14,8 +12,8 @@ class Geo(models.Model):
     timezone = models.CharField(max_length=5, blank=True, null=True)
     dst = models.CharField(max_length=5, blank=True, null=True)
 
-    def get_location(self):
-        return Point(self.longitude, self.latitude)
+    # def get_location(self):
+    #     return Point(self.latitude, self.longitude)
 
     def __str__(self):
         return self.zip_code
